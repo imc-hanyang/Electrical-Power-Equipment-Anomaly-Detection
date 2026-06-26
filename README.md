@@ -26,6 +26,33 @@ pip install -r requirements.txt
 
 ---
 
+## 입력 데이터 형식
+
+데이터셋은 반드시 아래 구조로 구성되어야 합니다.
+
+```
+dataset/
+├── Anomaly/   # 이상 이미지
+└── Normal/    # 정상 이미지
+```
+
+모델이 정상적으로 동작하려면 **이미지가 관심 영역 기준으로 정밀하게 crop**되어야 합니다.  
+전체 사진을 그대로 입력하면 성능이 크게 저하됩니다.
+
+### 전선 이상탐지 (Wire Anomaly Detection)
+
+| 정상 (Normal) | 이상 (Anomaly) |
+|:---:|:---:|
+| ![wire_normal](docs/assets/wire_normal.jpg) | ![wire_anomaly](docs/assets/wire_anomaly.jpg) |
+
+### 종단접속재 황변 이상탐지 (Yellow Stain Detection)
+
+| 샘플 1 | 샘플 2 |
+|:---:|:---:|
+| ![hw_sample1](docs/assets/hw_sample1.jpg) | ![hw_sample2](docs/assets/hw_sample2.jpg) |
+
+---
+
 ## Inference
 
 6개 모델 한 번에 실행, 10-fold mean±std 테이블 자동 출력.
