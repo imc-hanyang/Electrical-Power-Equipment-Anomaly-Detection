@@ -43,13 +43,13 @@ dataset/
 
 | 정상 (Normal) | 이상 (Anomaly) |
 |:---:|:---:|
-| ![wire_normal](docs/assets/wire_normal.jpg) | ![wire_anomaly](docs/assets/wire_anomaly.jpg) |
+| <img src="docs/assets/wire_normal.jpg" width="200"/> | <img src="docs/assets/wire_anomaly.jpg" width="200"/> |
 
 ### 종단접속재 황변 이상탐지 (Yellow Stain Detection)
 
 | 샘플 1 | 샘플 2 |
 |:---:|:---:|
-| ![hw_sample1](docs/assets/hw_sample1.jpg) | ![hw_sample2](docs/assets/hw_sample2.jpg) |
+| <img src="docs/assets/hw_sample1.jpg" width="200"/> | <img src="docs/assets/hw_sample2.jpg" width="200"/> |
 
 ---
 
