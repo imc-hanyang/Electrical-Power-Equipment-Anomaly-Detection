@@ -1,16 +1,5 @@
 # KEPCO OPGW 이상 탐지
 
-## wire data(전선 데이터) 성능 (Dataset_0622, 10-Fold 평균 ± 표준편차)
-
-| 모델 | Precision | Recall | F1 | AUROC |
-|---|---|---|---|---|
-| PatchCore | 83.13 ± 8.06 | 93.97 ± 4.83 | 87.94 ± 5.29 | 93.69 ± 3.76 |
-| DifferNet | 80.93 ± 6.43 | 89.71 ± 5.00 | 84.79 ± 2.89 | 93.19 ± 2.90 |
-| ConvNeXt-B (linear) | 97.27 ± 2.02 | 97.23 ± 2.52 | 97.24 ± 2.19 | 99.74 ± 0.35 |
-| ViT-B (linear) | 99.25 ± 0.94 | 99.36 ± 0.81 | 99.30 ± 0.85 | 100.00 ± 0.00 |
-| **ConvNeXt-B + CLAdapter** | **99.86 ± 0.41** | **99.78 ± 0.65** | **99.82 ± 0.53** | **100.00 ± 0.00** |
-| **ViT-B + CLAdapter** | **100.00 ± 0.00** | **100.00 ± 0.00** | **100.00 ± 0.00** | **100.00 ± 0.00** |
-
 ## 프로젝트 구조
 
 ```
@@ -21,12 +10,12 @@ KEPCO-OPGW-Anomaly/
 ├── baselines/
 │   ├── normal_only/                # PatchCore
 │   ├── differnet/                  # DifferNet
-│   ├── cladapter/                  # CLAdapter 선형 분류기 베이스라인
-│   ├── supervised_classifier/      # EfficientNet 지도학습 베이스라인
+│   ├── cladapter/                  # CLAdapter 베이스라인
+│   ├── supervised_classifier/      # EfficientNet 베이스라인
 │   └── CLAdapter_official/         # CLAdapter 공식 구현체
 ├── dataset/
-│   ├── Dataset_0622/               # OPGW 데이터셋 (anomaly / normal)
-│   └── Dataset_0612_all/           # 초기 수집 데이터셋
+│   ├── Dataset_0622/               # 전선 데이터셋
+│   └── Dataset_0612_all/           # 종단접속새 황변 데이터셋
 ├── scripts/                        # 유틸 스크립트 (split 생성, 결과 요약 등)
 ├── docs/
 ├── train_kfold.sh                  # CLAdapter 10-fold 학습 진입점
@@ -122,4 +111,13 @@ python collect_results.py
 ```
 
 ---
+## wire data(전선 데이터) 성능 (Dataset_0622, 10-Fold 평균 ± 표준편차)
 
+| 모델 | Precision | Recall | F1 | AUROC |
+|---|---|---|---|---|
+| PatchCore | 83.13 ± 8.06 | 93.97 ± 4.83 | 87.94 ± 5.29 | 93.69 ± 3.76 |
+| DifferNet | 80.93 ± 6.43 | 89.71 ± 5.00 | 84.79 ± 2.89 | 93.19 ± 2.90 |
+| ConvNeXt-B (linear) | 97.27 ± 2.02 | 97.23 ± 2.52 | 97.24 ± 2.19 | 99.74 ± 0.35 |
+| ViT-B (linear) | 99.25 ± 0.94 | 99.36 ± 0.81 | 99.30 ± 0.85 | 100.00 ± 0.00 |
+| **ConvNeXt-B + CLAdapter** | **99.86 ± 0.41** | **99.78 ± 0.65** | **99.82 ± 0.53** | **100.00 ± 0.00** |
+| **ViT-B + CLAdapter** | **100.00 ± 0.00** | **100.00 ± 0.00** | **100.00 ± 0.00** | **100.00 ± 0.00** |
