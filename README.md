@@ -87,6 +87,7 @@ bash hwang_inference.sh --test-dir /path/to/dataset
 | `--fold` | fold 번호 (0~9) 또는 `auto` | `9` |
 | `--metric` | `auto` 기준 지표 (`f1` / `auroc`) | `f1` |
 | `--checkpoints-dir` | 체크포인트 루트 | `wire_final_train/` / `hwang_group_train/` |
+| `--split-dir` | fold CSV 디렉토리 (test split 필터링) | `splits/kfold10_..._0622/` / `splits/kfold10_..._0612_group/` |
 | `--models` | 실행할 모델 (`all` 또는 콤마 구분) | `all` |
 | `--output-dir` | 결과 저장 경로 | `predictions/` |
 

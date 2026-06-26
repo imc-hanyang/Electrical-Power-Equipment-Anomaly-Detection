@@ -21,7 +21,7 @@ OUTPUT_DIR="${SCRIPT_DIR}/predictions"
 METRIC="f1"
 MODELS="all"
 SPLIT_CSV=""    # 단일 CSV 파일 경로
-SPLIT_DIR=""    # fold_N.csv 들이 있는 디렉토리 (fold별 자동 선택)
+SPLIT_DIR="${SCRIPT_DIR}/dataset/splits/kfold10_train_val_test_dataset_0622"    # fold_N.csv 들이 있는 디렉토리 (fold별 자동 선택)
 
 usage() {
   cat <<'EOF'
