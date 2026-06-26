@@ -98,9 +98,16 @@ else
   MODEL_LIST="${MODELS//,/ }"
 fi
 
-# GT 라벨 가능 여부
+# GT 라벨 가능 여부 (대소문자 무관)
 HAS_GT=false
-[[ -d "${TEST_DIR}/anomaly" && -d "${TEST_DIR}/normal" ]] && HAS_GT=true
+DIR_AN="" DIR_NR=""
+for _a in anomaly Anomaly; do
+  for _n in normal Normal; do
+    if [[ -d "${TEST_DIR}/${_a}" && -d "${TEST_DIR}/${_n}" ]]; then
+      HAS_GT=true; DIR_AN="${TEST_DIR}/${_a}"; DIR_NR="${TEST_DIR}/${_n}"; break 2
+    fi
+  done
+done
 
 mkdir -p "$OUTPUT_DIR"
 TMP_DIR=$(mktemp -d)
@@ -173,8 +180,8 @@ PYEOF
 
   # ── split CSV 기반 test 이미지 필터링 ─────────────────────────────
   # --split-csv 또는 --split-dir 지정 시 test split 이미지만 추론
-  INFER_ANOMALY="${TEST_DIR}/anomaly"
-  INFER_NORMAL="${TEST_DIR}/normal"
+  INFER_ANOMALY="$DIR_AN"
+  INFER_NORMAL="$DIR_NR"
   USE_SPLIT=false
 
   if [[ -n "$SPLIT_CSV" || -n "$SPLIT_DIR" ]]; then
@@ -224,7 +231,7 @@ with open(split_file, newline="", encoding="utf-8") as f:
                     p = candidate; break
         if not p.exists():
             continue
-        parts = str(p).replace("\\", "/")
+        parts = str(p).replace("\\", "/").lower()
         if "/anomaly/" in parts or parts.endswith("/anomaly"):
             dst = out_an / p.name
             n_an += 1
