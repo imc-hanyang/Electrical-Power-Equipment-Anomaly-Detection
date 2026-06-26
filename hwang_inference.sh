@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# wire_inference.sh — KEPCO OPGW 6-model inference
+# hwang_inference.sh — KEPCO 황변 6-model inference
 # anomaly/ + normal/ 하위 폴더 있으면 Precision/Recall/F1/AUROC 자동 계산
 # 항상 10-fold mean±std 테이블 출력
 #
 # Usage:
-#   bash wire_inference.sh --test-dir /path/to/dataset
-#   bash wire_inference.sh --test-dir /path/to/dataset --fold auto
-#   bash wire_inference.sh --test-dir /path/to/images --models vitb_cla_sft2,differnet
+#   bash hwang_inference.sh --test-dir /path/to/dataset
+#   bash hwang_inference.sh --test-dir /path/to/dataset --fold auto
+#   bash hwang_inference.sh --test-dir /path/to/images --models vitb_cla_sft2,differnet
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DEFAULT_CKPT_DIR="${SCRIPT_DIR}/checkpoints/wire_final_train"
+DEFAULT_CKPT_DIR="${SCRIPT_DIR}/checkpoints/hwang_group_train"
 
 # ── 기본값 ──────────────────────────────────────────────────────────
 FOLD_ARG="9"
@@ -26,7 +26,7 @@ SPLIT_DIR=""    # fold_N.csv 들이 있는 디렉토리 (fold별 자동 선택)
 usage() {
   cat <<'EOF'
 
-Usage: bash wire_inference.sh --test-dir <path> [options]
+Usage: bash hwang_inference.sh --test-dir <path> [options]
 
 필수:
   --test-dir PATH          테스트 이미지 디렉토리
@@ -36,7 +36,7 @@ Usage: bash wire_inference.sh --test-dir <path> [options]
   --fold N|auto            fold 번호 or 'auto' (기본: 9)
   --metric f1|auroc        auto 기준 지표 (기본: f1)
   --checkpoints-dir PATH   통합 체크포인트 루트
-                           (기본: checkpoints/wire_final_train/)
+                           (기본: checkpoints/hwang_final_train/)
   --split-csv PATH         fold CSV 파일 — test split 이미지만 추론 (공정 평가용)
   --split-dir PATH         fold CSV 디렉토리 — fold_N.csv 자동 선택
   --output-dir PATH        결과 저장 경로 (기본: predictions/)
@@ -51,11 +51,11 @@ Usage: bash wire_inference.sh --test-dir <path> [options]
   vitb_cla_sft2       Ours (ViT-B + CLAdapter)   ← 최고 성능, 권장
 
 예시:
-  bash wire_inference.sh --test-dir dataset/Dataset_0622
-  bash wire_inference.sh --test-dir dataset/Dataset_0622 --fold auto
-  bash wire_inference.sh --test-dir /path/to/new_images --models vitb_cla_sft2
+  bash hwang_inference.sh --test-dir dataset/Dataset_0622
+  bash hwang_inference.sh --test-dir dataset/Dataset_0622 --fold auto
+  bash hwang_inference.sh --test-dir /path/to/new_images --models vitb_cla_sft2
   # 공정 평가 (test split만)
-  bash wire_inference.sh --test-dir dataset/Dataset_0622 --fold 9 \
+  bash hwang_inference.sh --test-dir dataset/Dataset_0622 --fold 9 \
     --split-dir dataset/splits/kfold10_train_val_test_dataset_0622
 
 EOF
@@ -130,7 +130,7 @@ TOTAL_MODELS=$(echo $MODEL_LIST | wc -w)
 SCRIPT_START=$SECONDS
 
 printf "==================================================\n"
-printf " KEPCO OPGW Wire Inference\n"
+printf " KEPCO OPGW Hwang Inference\n"
 printf " test-dir  : %s\n" "$TEST_DIR"
 printf " fold      : %s  |  %d 모델\n" "$FOLD_ARG" "$TOTAL_MODELS"
 [[ -n "$SPLIT_DIR" || -n "$SPLIT_CSV" ]] && printf " split     : test split 필터링\n"

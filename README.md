@@ -1,26 +1,36 @@
 # KEPCO OPGW 이상 탐지
 
-CLIP 기반 CLAdapter를 활용한 OPGW 전선 이상 탐지.
-ViT-B / ConvNeXt-B 백본에 CLAdapter 2-stage fine-tuning 적용.
+OPGW 데이터셋을 기반으로 PatchCore · DifferNet · ConvNeXt-B · ViT-B · ConvNeXt-B+CLAdapter · ViT-B+CLAdapter 6가지 모델 성능을 비교하는 파이프라인
 
-## 성능 (Dataset_0622, 10-Fold 평균 ± 표준편차)
+## 전선 이상탐지 성능 (Dataset_0622, 10-Fold 평균 ± 표준편차)
 
 | 모델 | Precision | Recall | F1 | AUROC |
 |---|---|---|---|---|
-| PatchCore | 83.13 ± 8.06 | 93.97 ± 4.83 | 87.94 ± 5.29 | 93.69 ± 3.76 |
-| DifferNet | 82.14 ± 5.57 | 91.85 ± 4.80 | 86.46 ± 2.45 | 93.19 ± 2.90 |
+| PatchCore | 84.93 ± 6.47 | 84.65 ± 6.82 | 84.78 ± 6.59 | 93.69 ± 3.76 |
+| DifferNet | 86.94 ± 2.78 | 87.76 ± 2.36 | 87.34 ± 2.51 | 93.19 ± 2.90 |
 | ConvNeXt-B (linear) | 97.27 ± 2.02 | 97.23 ± 2.52 | 97.24 ± 2.19 | 99.74 ± 0.35 |
 | ViT-B (linear) | 99.25 ± 0.94 | 99.36 ± 0.81 | 99.30 ± 0.85 | 100.00 ± 0.00 |
 | **ConvNeXt-B + CLAdapter** | **99.86 ± 0.41** | **99.78 ± 0.65** | **99.82 ± 0.53** | **100.00 ± 0.00** |
 | **ViT-B + CLAdapter** | **100.00 ± 0.00** | **100.00 ± 0.00** | **100.00 ± 0.00** | **100.00 ± 0.00** |
+
+## 종단접속재 황변 이상탐지 성능 (Dataset_0612, 10-Fold 평균 ± 표준편차)
+
+| 모델 | Precision | Recall | F1 | AUROC |
+|---|---|---|---|---|
+| PatchCore | 64.33 ± 16.16 | 59.01 ± 7.89 | 60.71 ± 11.12 | 66.13 ± 13.14 |
+| DifferNet | 73.41 ± 9.92 | 71.71 ± 9.77 | 72.50 ± 9.63 | 85.50 ± 7.21 |
+| ConvNeXt-B (linear) | 78.77 ± 6.56 | 63.63 ± 6.47 | 70.20 ± 5.52 | 87.94 ± 4.92 |
+| ViT-B (linear) | 82.93 ± 9.76 | 80.15 ± 8.58 | 81.48 ± 8.99 | 91.36 ± 8.31 |
+| **ConvNeXt-B + CLAdapter** | **91.48 ± 6.11** | **91.16 ± 6.04** | **91.31 ± 6.03** | **98.03 ± 1.90** |
+| **ViT-B + CLAdapter** | **93.08 ± 4.82** | **92.73 ± 6.08** | **92.88 ± 5.32** | **98.34 ± 2.28** |
 
 ---
 
 ## 설치
 
 ```bash
-conda create -n kepco_env python=3.10 -y
-conda activate kepco_env
+conda create -n <env_name> python=3.10 -y
+conda activate <env_name>
 pip install -r requirements.txt
 ```
 
@@ -36,8 +46,8 @@ dataset/
 └── Normal/    # 정상 이미지
 ```
 
-모델이 정상적으로 동작하려면 **이미지가 관심 영역 기준으로 정밀하게 crop**되어야 합니다.  
-전체 사진을 그대로 입력하면 성능이 크게 저하됩니다.
+모델이 정상적으로 동작하려면 **이미지가 결함 영역 기준으로 정밀하게 crop**되어야 합니다.  
+전체 사진을 그대로 입력하면 성능이 크게 저하됩니다. 하단은 참고 데이터 예시입니다.
 
 ### 전선 이상탐지 (Wire Anomaly Detection)
 
@@ -55,22 +65,28 @@ dataset/
 
 ## Inference
 
-6개 모델 한 번에 실행, 10-fold mean±std 테이블 자동 출력.
+### 전선 이상탐지
 
 ```bash
 bash wire_inference.sh --test-dir /path/to/dataset
 ```
 
-`/path/to/dataset` 하위에 `anomaly/`, `normal/` 폴더가 있으면 Precision / Recall / F1 / AUROC 자동 계산.
+### 종단접속재 황변 이상탐지
+
+```bash
+bash hwang_inference.sh --test-dir /path/to/dataset
+```
+
+`/path/to/dataset` 하위에 `Anomaly/`, `Normal/` 폴더가 있으면 Precision / Recall / F1 / AUROC 자동 계산.
 
 ### 옵션
 
-| 옵션 | 설명 | 기본값 |
+| 옵션 | 설명 | 기본값 (wire / hwang) |
 |---|---|---|
 | `--test-dir` | 테스트 이미지 디렉토리 | **(필수)** |
 | `--fold` | fold 번호 (0~9) 또는 `auto` | `9` |
 | `--metric` | `auto` 기준 지표 (`f1` / `auroc`) | `f1` |
-| `--checkpoints-dir` | 체크포인트 루트 | `checkpoints/wire_final_train/` |
+| `--checkpoints-dir` | 체크포인트 루트 | `wire_final_train/` / `hwang_group_train/` |
 | `--models` | 실행할 모델 (`all` 또는 콤마 구분) | `all` |
 | `--output-dir` | 결과 저장 경로 | `predictions/` |
 
@@ -98,9 +114,11 @@ KEPCO-OPGW-Anomaly/
 │   ├── normal_only/        # PatchCore
 │   └── attent_differnet/   # DifferNet
 ├── checkpoints/
-│   └── wire_final_train/   # 6모델 통합 체크포인트 (fold_0 ~ fold_9)
-├── dataset/                # 데이터셋 (anomaly / normal)
-├── wire_inference.sh       # 6모델 통합 inference 스크립트
+│   ├── wire_final_train/   # 전선 6모델 체크포인트 (fold_0 ~ fold_9)
+│   └── hwang_group_train/  # 황변 6모델 체크포인트 (fold_0 ~ fold_9)
+├── dataset/                # 데이터셋 (Anomaly / Normal)
+├── wire_inference.sh       # 전선 6모델 통합 inference 스크립트
+├── hwang_inference.sh      # 황변 6모델 통합 inference 스크립트
 ├── train_kfold.sh          # CLAdapter 10-fold 학습
 └── requirements.txt
 ```
