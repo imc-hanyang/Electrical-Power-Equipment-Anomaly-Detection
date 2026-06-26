@@ -1,0 +1,37 @@
+q!
+# Model weights / checkpoints
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+
+# Archive (old experiments)
+archive/
+
+# Experiment run outputs / legacy (server-side)
+engine/
+archive/
+baselines/runs/
+baselines/analysis/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Env
+.env
+venv/
+env/
