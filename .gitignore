@@ -1,9 +1,3 @@
-# Model weights / checkpoints
-checkpoints/
-*.pth
-*.pt
-*.ckpt
-
 # Archive (old experiments)
 archive/
 
