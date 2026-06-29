@@ -60,7 +60,16 @@ def download_resource(key: str, force: bool = False) -> None:
         return
 
     print(f"[INFO] {r['label']} 다운로드 중...")
+
+    # 깨진 symlink나 파일이 폴더 위치에 있으면 제거
+    parent_dir = os.path.dirname(dest)
+    if os.path.isfile(parent_dir) or os.path.islink(parent_dir):
+        os.remove(parent_dir)
+    os.makedirs(parent_dir, exist_ok=True)
+
     tmp_dir = dest + "_tmp"
+    if os.path.isfile(tmp_dir) or os.path.islink(tmp_dir):
+        os.remove(tmp_dir)
     os.makedirs(tmp_dir, exist_ok=True)
 
     gdown.download_folder(
