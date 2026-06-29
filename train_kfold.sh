@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KEPCO OPGW 이상 탐지 — 10-Fold 학습 스크립트
+# Electrical Power Equipment 이상 탐지 — 10-Fold 학습 스크립트
 #
 # Usage:
 #   bash train_kfold.sh                          # 전체 10-fold, ViT-B, GPU 0

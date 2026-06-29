@@ -1,7 +1,7 @@
 import json, glob, os
 import numpy as np
 
-BASE = os.path.expanduser("~") + "/KEPCO_May/ViT-B + CLAdapter SFT_new/engine/runs"
+BASE = os.path.expanduser("~") + "/Electrical-Power-Equipment-Anomaly-Detection/ViT-B + CLAdapter SFT_new/engine/runs"
 REMAINING = f"{BASE}/kfold10_remaining_dataset_0622_20260624_092147"
 VITB_CLA  = f"{BASE}/kfold10_vitb_cladapter_dataset_0622_20260624_092152"
 BASELINES = f"{BASE}/no_etc_kfold10_baselines_dataset_0622_20260623_211414"

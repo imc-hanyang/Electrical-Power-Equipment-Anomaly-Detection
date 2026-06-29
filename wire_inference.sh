@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# wire_inference.sh — KEPCO OPGW 6-model inference
+# wire_inference.sh — Electrical Power Equipment 6-model inference
 # anomaly/ + normal/ 하위 폴더 있으면 Precision/Recall/F1/AUROC 자동 계산
 # 항상 10-fold mean±std 테이블 출력
 #
@@ -130,7 +130,7 @@ TOTAL_MODELS=$(echo $MODEL_LIST | wc -w)
 SCRIPT_START=$SECONDS
 
 printf "==================================================\n"
-printf " KEPCO OPGW Wire Inference\n"
+printf " Electrical Power Equipment Wire Inference\n"
 printf " test-dir  : %s\n" "$TEST_DIR"
 printf " fold      : %s  |  %d 모델\n" "$FOLD_ARG" "$TOTAL_MODELS"
 [[ -n "$SPLIT_DIR" || -n "$SPLIT_CSV" ]] && printf " split     : test split 필터링\n"
