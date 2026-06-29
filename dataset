@@ -1,1 +1,9 @@
-data path
+# 데이터셋 다운로드
+
+데이터셋은 용량 문제로 git에 포함되어 있지 않습니다.  
+아래 Google Drive 링크에서 다운로드 후 해당 경로에 배치하세요.
+
+| 항목 | 경로 | Google Drive |
+|---|---|---|
+| 전선 데이터셋 | `dataset/Dataset_0622/` | [다운로드](https://drive.google.com/drive/folders/1N3rTC0d0MGG8bcE9wL_f4-VxR4MM9EHA) |
+| 황변 데이터셋 | `dataset/Dataset_0612/` | [다운로드](https://drive.google.com/drive/folders/1-BshJFPN1rGL5m6IZWOcVIv_uHSxtyGb) |
