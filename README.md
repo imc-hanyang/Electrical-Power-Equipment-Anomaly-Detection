@@ -2,7 +2,7 @@
 
 Electrical Power Equipment 데이터셋을 기반으로 PatchCore · DifferNet · ConvNeXt-B · ViT-B · ConvNeXt-B+CLAdapter · ViT-B+CLAdapter 6가지 모델 성능을 비교하는 파이프라인
 
-## 설치
+## 1. 설치
 
 ```bash
 conda create -n <env_name> python=3.10 -y
@@ -10,38 +10,19 @@ conda activate <env_name>
 pip install -r requirements.txt
 ```
 
-### 데이터셋 & 체크포인트
+### 2. PT 파일 다운로드
 
 용량 문제로 git에 포함되어 있지 않습니다. Google Drive에서 다운로드하세요.
 
 | 항목 | Google Drive |
 |---|---|
-| 전선 데이터셋 (Dataset_0622) | [다운로드](https://drive.google.com/drive/folders/1N3rTC0d0MGG8bcE9wL_f4-VxR4MM9EHA) |
-| 황변 데이터셋 (Dataset_0612) | [다운로드](https://drive.google.com/drive/folders/1-BshJFPN1rGL5m6IZWOcVIv_uHSxtyGb) |
-| 전선 체크포인트 fold_9 | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
-| 황변 체크포인트 fold_9 | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
-| 전선 체크포인트 전체 (tar.gz) | 업로드 예정 |
-| 황변 체크포인트 전체 (tar.gz) | 업로드 예정 |
+| 전선 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
+| 황변 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
 
-**fold_9 자동 다운로드** (권장):
-
-```bash
-python download_checkpoints.py           # 데이터셋 + fold_9 체크포인트 전체
-python download_checkpoints.py --target wire   # 전선만
-python download_checkpoints.py --target hwang  # 황변만
-```
-
-**전체 fold 수동 설치** (10-fold 재현 시):
-
-```bash
-# tar.gz 다운로드 후
-tar -xzf wire_final_train.tar.gz -C checkpoints/
-tar -xzf hwang_group_train.tar.gz -C checkpoints/
-```
-
+*checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다.
 ---
 
-## 입력 데이터 형식
+## 3. 데이터셋 구성
 
 데이터셋은 반드시 아래 구조로 구성되어야 합니다.
 
@@ -68,7 +49,7 @@ dataset/
 
 ---
 
-## Inference
+## 4. Inference
 
 ### 전선 이상탐지
 
