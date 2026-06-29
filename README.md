@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 - checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다.
 - 각 모델 폴더(`patchcore/`, `differnet/`, `linear_convnextb/`, `linear_vitb/`, `convnextb_cla_sft2/`, `vitb_cla_sft2/`) 안에 `.pt` 체크포인트 파일이 포함되어 있습니다.
-- checkpoints/wire_final_train/fold_9/{model}/*.pt   # 6개 모델 각 1개
+
 ---
 
 ## 3. 데이터셋 구성
