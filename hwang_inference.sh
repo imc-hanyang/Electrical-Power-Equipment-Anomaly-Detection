@@ -78,11 +78,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# ── 체크포인트 자동 다운로드 ─────────────────────────────────────────
-if [ ! -d "${CKPT_DIR}/fold_9" ]; then
-  echo "[INFO] 체크포인트 없음 → 자동 다운로드 시작..."
-  python3 "${SCRIPT_DIR}/download_checkpoints.py" --target hwang
-fi
 
 [[ -z "$TEST_DIR" ]]   && { echo "[ERROR] --test-dir 필수"; usage; }
 [[ ! -d "$TEST_DIR" ]] && { echo "[ERROR] 경로 없음: $TEST_DIR"; exit 1; }
