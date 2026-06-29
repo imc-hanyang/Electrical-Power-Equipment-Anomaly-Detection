@@ -1,6 +1,6 @@
 # Electrical Power Equipment Anomaly Detection
 
-OPGW 데이터셋을 기반으로 PatchCore · DifferNet · ConvNeXt-B · ViT-B · ConvNeXt-B+CLAdapter · ViT-B+CLAdapter 6가지 모델 성능을 비교하는 파이프라인
+Electrical Power Equipment 데이터셋을 기반으로 PatchCore · DifferNet · ConvNeXt-B · ViT-B · ConvNeXt-B+CLAdapter · ViT-B+CLAdapter 6가지 모델 성능을 비교하는 파이프라인
 
 ## 설치
 
