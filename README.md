@@ -19,7 +19,8 @@ pip install -r requirements.txt
 | 전선 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
 | 황변 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
 
-- checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다. 각 모델 폴더(`patchcore/`, `differnet/`, `linear_convnextb/`, `linear_vitb/`, `convnextb_cla_sft2/`, `vitb_cla_sft2/`) 안에 `.pt` 체크포인트 파일이 포함되어 있습니다.
+- checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다.
+- 각 모델 폴더(`patchcore/`, `differnet/`, `linear_convnextb/`, `linear_vitb/`, `convnextb_cla_sft2/`, `vitb_cla_sft2/`) 안에 `.pt` 체크포인트 파일이 포함되어 있습니다.
 - checkpoints/wire_final_train/fold_9/{model}/*.pt   # 6개 모델 각 1개
 ---
 
