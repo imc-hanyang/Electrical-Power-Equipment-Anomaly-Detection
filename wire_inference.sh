@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# wire_inference.sh — Electrical Power Equipment 6-model inference
+# wire_inference.sh — KEPCO OPGW 6-model inference
 # anomaly/ + normal/ 하위 폴더 있으면 Precision/Recall/F1/AUROC 자동 계산
 # 항상 10-fold mean±std 테이블 출력
 #
@@ -78,6 +78,12 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# ── 체크포인트 자동 다운로드 ─────────────────────────────────────────
+if [ ! -d "${CKPT_DIR}/fold_9" ]; then
+  echo "[INFO] 체크포인트 없음 → 자동 다운로드 시작..."
+  python3 "${SCRIPT_DIR}/download_checkpoints.py" --target wire
+fi
+
 [[ -z "$TEST_DIR" ]]   && { echo "[ERROR] --test-dir 필수"; usage; }
 [[ ! -d "$TEST_DIR" ]] && { echo "[ERROR] 경로 없음: $TEST_DIR"; exit 1; }
 [[ ! -d "$CKPT_DIR" ]] && { echo "[ERROR] 체크포인트 없음: $CKPT_DIR"; exit 1; }
@@ -130,7 +136,7 @@ TOTAL_MODELS=$(echo $MODEL_LIST | wc -w)
 SCRIPT_START=$SECONDS
 
 printf "==================================================\n"
-printf " Electrical Power Equipment Wire Inference\n"
+printf " KEPCO OPGW Wire Inference\n"
 printf " test-dir  : %s\n" "$TEST_DIR"
 printf " fold      : %s  |  %d 모델\n" "$FOLD_ARG" "$TOTAL_MODELS"
 [[ -n "$SPLIT_DIR" || -n "$SPLIT_CSV" ]] && printf " split     : test split 필터링\n"
