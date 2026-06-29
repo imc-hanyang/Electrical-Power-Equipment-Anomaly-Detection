@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-KEPCO OPGW 이상 탐지 Inference 스크립트
+Electrical Power Equipment 이상 탐지 Inference 스크립트
 
 Usage:
   # 경로만 바꿔서 테스트 (fold 자동 선택)
@@ -123,7 +123,7 @@ class ImageDirDataset(Dataset):
 # ── 인자 파싱 ──────────────────────────────────────────────────────────────
 def parse_args():
     p = argparse.ArgumentParser(
-        description="KEPCO OPGW 이상 탐지 Inference",
+        description="Electrical Power Equipment 이상 탐지 Inference",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     p.add_argument("--test-dir", type=Path, required=True,
