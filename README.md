@@ -10,6 +10,35 @@ conda activate <env_name>
 pip install -r requirements.txt
 ```
 
+### 데이터셋 & 체크포인트
+
+용량 문제로 git에 포함되어 있지 않습니다. Google Drive에서 다운로드하세요.
+
+| 항목 | Google Drive |
+|---|---|
+| 전선 데이터셋 (Dataset_0622) | [다운로드](https://drive.google.com/drive/folders/1N3rTC0d0MGG8bcE9wL_f4-VxR4MM9EHA) |
+| 황변 데이터셋 (Dataset_0612) | [다운로드](https://drive.google.com/drive/folders/1-BshJFPN1rGL5m6IZWOcVIv_uHSxtyGb) |
+| 전선 체크포인트 fold_9 | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
+| 황변 체크포인트 fold_9 | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
+| 전선 체크포인트 전체 (tar.gz) | 업로드 예정 |
+| 황변 체크포인트 전체 (tar.gz) | 업로드 예정 |
+
+**fold_9 자동 다운로드** (권장):
+
+```bash
+python download_checkpoints.py           # 데이터셋 + fold_9 체크포인트 전체
+python download_checkpoints.py --target wire   # 전선만
+python download_checkpoints.py --target hwang  # 황변만
+```
+
+**전체 fold 수동 설치** (10-fold 재현 시):
+
+```bash
+# tar.gz 다운로드 후
+tar -xzf wire_final_train.tar.gz -C checkpoints/
+tar -xzf hwang_group_train.tar.gz -C checkpoints/
+```
+
 ---
 
 ## 입력 데이터 형식
@@ -25,13 +54,13 @@ dataset/
 모델이 정상적으로 동작하려면 **이미지가 결함 영역 기준으로 정밀하게 crop**되어야 합니다.  
 전체 사진을 그대로 입력하면 성능이 크게 저하됩니다. 하단은 참고 데이터 예시입니다.
 
-### 전선 이상탐지 
+### 전선 이상탐지
 
 | 정상 (Normal) | 이상 (Anomaly) |
 |:---:|:---:|
 | <img src="docs/assets/wire_normal_2.jpg" width="200"/> | <img src="docs/assets/wire_anomaly.jpg" width="200"/> |
 
-### 종단접속재 황변 이상탐지 
+### 종단접속재 황변 이상탐지
 
 | 정상 (Normal) | 이상 (Anomaly) |
 |:---:|:---:|
@@ -94,11 +123,13 @@ Electrical-Power-Equipment-Anomaly-Detection/
 │   ├── wire_final_train/   # 전선 6모델 체크포인트 (fold_0 ~ fold_9)
 │   └── hwang_group_train/  # 황변 6모델 체크포인트 (fold_0 ~ fold_9)
 ├── dataset/                # 데이터셋 (Anomaly / Normal)
+├── download_checkpoints.py # 데이터셋·체크포인트 자동 다운로드
 ├── wire_inference.sh       # 전선 6모델 통합 inference 스크립트
 ├── hwang_inference.sh      # 황변 6모델 통합 inference 스크립트
 ├── train_kfold.sh          # CLAdapter 10-fold 학습
 └── requirements.txt
 ```
+
 ## 전선 이상탐지 성능 (Dataset_0622, 10-Fold 평균 ± 표준편차)
 
 | 모델 | Precision | Recall | F1 | AUROC |
@@ -120,5 +151,3 @@ Electrical-Power-Equipment-Anomaly-Detection/
 | ViT-B (linear) | 82.93 ± 9.76 | 80.15 ± 8.58 | 81.48 ± 8.99 | 91.36 ± 8.31 |
 | **ConvNeXt-B + CLAdapter** | **91.48 ± 6.11** | **91.16 ± 6.04** | **91.31 ± 6.03** | **98.03 ± 1.90** |
 | **ViT-B + CLAdapter** | **93.08 ± 4.82** | **92.73 ± 6.08** | **92.88 ± 5.32** | **98.34 ± 2.28** |
-
----
