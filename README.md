@@ -19,7 +19,7 @@ pip install -r requirements.txt
 | 전선 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
 | 황변 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
 
-*checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다.
+checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다.
 ---
 
 ## 3. 데이터셋 구성
