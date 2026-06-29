@@ -29,7 +29,7 @@ dataset/
 
 | 정상 (Normal) | 이상 (Anomaly) |
 |:---:|:---:|
-| <img src="docs/assets/wire_normal.jpg" width="200"/> | <img src="docs/assets/wire_anomaly.jpg" width="200"/> |
+| <img src="docs/assets/wire_normal_2.jpg" width="200"/> | <img src="docs/assets/wire_anomaly.jpg" width="200"/> |
 
 ### 종단접속재 황변 이상탐지 
 
