@@ -10,7 +10,7 @@ conda activate <env_name>
 pip install -r requirements.txt
 ```
 
-### 2. PT 파일 다운로드
+### 2. PT 파일 다운로드 (download_checkpoints.py 스크립트 실행시 자동 다운로드 가능)
 
 용량 문제로 git에 포함되어 있지 않습니다. Google Drive에서 다운로드하세요.
 
