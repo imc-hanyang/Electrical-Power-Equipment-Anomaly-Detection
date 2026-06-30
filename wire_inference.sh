@@ -518,9 +518,16 @@ def get_val(m, dotkey):
 
 def fold_metrics(ckpt_dir, model, fold_n):
     subdir = SUBDIRS[model]
-    mp = ckpt_dir / f"fold_{fold_n}" / subdir / "metrics.json"
-    if not mp.exists():
-        return None
+    base = ckpt_dir / f"fold_{fold_n}" / subdir
+    if model in ("patchcore", "differnet"):
+        candidates = list(base.rglob("metrics.json"))
+        if not candidates:
+            return None
+        mp = candidates[0]
+    else:
+        mp = base / "metrics.json"
+        if not mp.exists():
+            return None
     m = json.load(open(mp))
     if model in ("patchcore", "differnet"):
         # 슬라이드 기준: val threshold → test, macro F1 (정상+이상 클래스 평균)
@@ -607,10 +614,10 @@ summary = {
     json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
 txt_lines = [
     f"{LABELS.get(m,m)}: "
-    f"P={ms(kfold[m],'precision')} "
-    f"R={ms(kfold[m],'recall')} "
-    f"F1={ms(kfold[m],'f1')} "
-    f"AUC={ms(kfold[m],'auroc')}"
+    f"P={ms(kfold[m],'precision',single)} "
+    f"R={ms(kfold[m],'recall',single)} "
+    f"F1={ms(kfold[m],'f1',single)} "
+    f"AUC={ms(kfold[m],'auroc',single)}"
     for m in model_list if m in kfold
 ]
 (out_dir / f"summary_{fold_tag}.txt").write_text("\n".join(txt_lines), encoding="utf-8")
