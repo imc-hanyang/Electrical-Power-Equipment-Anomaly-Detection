@@ -133,8 +133,6 @@ SCRIPT_START=$SECONDS
 printf "==================================================\n"
 printf " KEPCO OPGW Hwang Inference\n"
 printf " test-dir  : %s\n" "$TEST_DIR"
-printf " fold      : %s  |  %d 모델\n" "$FOLD_ARG" "$TOTAL_MODELS"
-[[ -n "$SPLIT_DIR" || -n "$SPLIT_CSV" ]] && printf " split     : test split 필터링\n"
 printf "==================================================\n"
 
 FAILED=()
@@ -194,7 +192,7 @@ PYEOF
     fi
 
     if [[ ! -f "$CUR_CSV" ]]; then
-      echo "  [경고] split CSV 없음: $CUR_CSV — 전체 데이터셋으로 대체"
+      :
     else
       TEST_AN="${TMP_DIR}/${MODEL}_test_an"
       TEST_NR="${TMP_DIR}/${MODEL}_test_nr"
@@ -258,7 +256,7 @@ PYEOF
 
   # ── PatchCore: metrics.json 기반 (standalone inference 미지원) ────
   if [[ "$MODEL" == "patchcore" ]]; then
-    PC_JSON="${CKPT_DIR}/fold_${FOLD_NUM}/patchcore/metrics.json"
+    PC_JSON=$(find "${CKPT_DIR}/fold_${FOLD_NUM}/patchcore" -name "metrics.json" 2>/dev/null | head -1)
     if [[ ! -f "$PC_JSON" ]]; then
       echo "  [경고] metrics.json 없음: $PC_JSON"
       FAILED+=("$MODEL"); continue
@@ -295,7 +293,7 @@ except: pass
 
   # ── DifferNet: predict.py 사용 ────────────────────────────────────
   if [[ "$MODEL" == "differnet" ]]; then
-    DN_CKPT="${CKPT_DIR}/fold_${FOLD_NUM}/differnet/best.pt"
+    DN_CKPT=$(find "${CKPT_DIR}/fold_${FOLD_NUM}/differnet" -name "best.pt" 2>/dev/null | head -1)
     if [[ ! -f "$DN_CKPT" ]]; then
       echo "  [경고] 체크포인트 없음: $DN_CKPT"
       FAILED+=("$MODEL"); continue
