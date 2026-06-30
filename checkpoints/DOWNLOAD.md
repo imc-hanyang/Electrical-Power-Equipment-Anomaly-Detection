@@ -5,5 +5,5 @@
 
 | 항목 | 경로 | Google Drive |
 |---|---|---|
-| 전선 체크포인트 | `checkpoints/wire_final_train/fold_9/` | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
-| 황변 체크포인트 | `checkpoints/hwang_group_train/fold_9/` | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
+| 전선 체크포인트 | [다운로드]([https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf](https://drive.google.com/file/d/1w16hdFJiVKGGhANeBhI1xrsqKewPgIGo/view?usp=drive_link)) |
+| 황변 체크포인트 | [다운로드]([https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA](https://drive.google.com/file/d/1YQSUpS0BiWxRTK689YgNP_NlyKn1n-7a/view?usp=drive_link)) |
