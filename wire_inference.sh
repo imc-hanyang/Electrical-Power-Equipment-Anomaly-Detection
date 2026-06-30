@@ -445,7 +445,7 @@ if rows:
     except:
         auc=0
     print(f'  Precision={pr:.2f}%  Recall={rc:.2f}%  F1={f1:.2f}%  AUROC={auc:.2f}%', end='')
-" 2>/dev/null)
+" 2>/dev/null) || true
     printf "  →  완료 (%ds)%s\n" "$_ELAPSED" "$_M"
   else
     printf "  →  완료 (%ds)\n" "$_ELAPSED"
@@ -567,17 +567,23 @@ for m in model_list:
 
 W = 32
 
-def ms(s, k):
+def ms(s, k, single):
     if k not in s:
         return "    N/A      "
+    if single:
+        return f"{s[k]['mean']:6.2f}     "
     return f"{s[k]['mean']:6.2f}±{s[k]['std']:5.2f}"
 
 # ── 10-fold mean±std 테이블 ───────────────────────────────────────
 if kfold:
     n_folds = max(v["f1"]["n"] for v in kfold.values())
+    single  = n_folds == 1
     print()
     print("=" * 88)
-    print(f"  [ 10-Fold 평균 ± 표준편차  (n={n_folds}) ]")
+    if single:
+        print(f"  [ 결과 (n={n_folds}) ]")
+    else:
+        print(f"  [ 10-Fold 평균 ± 표준편차  (n={n_folds}) ]")
     print(f"  {'Model':<{W}} {'Precision':>15} {'Recall':>15} {'F1 Score':>15} {'AUROC':>15}")
     print("-" * 88)
     for m in model_list:
@@ -585,7 +591,7 @@ if kfold:
             continue
         s   = kfold[m]
         lbl = LABELS.get(m, m)
-        print(f"  {lbl:<{W}} {ms(s,'precision'):>15} {ms(s,'recall'):>15} {ms(s,'f1'):>15} {ms(s,'auroc'):>15}")
+        print(f"  {lbl:<{W}} {ms(s,'precision',single):>15} {ms(s,'recall',single):>15} {ms(s,'f1',single):>15} {ms(s,'auroc',single):>15}")
     print("=" * 88)
     print()
 
