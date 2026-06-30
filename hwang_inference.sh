@@ -607,10 +607,10 @@ summary = {
     json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
 txt_lines = [
     f"{LABELS.get(m,m)}: "
-    f"P={ms(kfold[m],'precision')} "
-    f"R={ms(kfold[m],'recall')} "
-    f"F1={ms(kfold[m],'f1')} "
-    f"AUC={ms(kfold[m],'auroc')}"
+    f"P={ms(kfold[m],'precision',single)} "
+    f"R={ms(kfold[m],'recall',single)} "
+    f"F1={ms(kfold[m],'f1',single)} "
+    f"AUC={ms(kfold[m],'auroc',single)}"
     for m in model_list if m in kfold
 ]
 (out_dir / f"summary_{fold_tag}.txt").write_text("\n".join(txt_lines), encoding="utf-8")
