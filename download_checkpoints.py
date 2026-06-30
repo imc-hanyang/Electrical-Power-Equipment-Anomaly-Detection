@@ -5,7 +5,9 @@ download_checkpoints.py — Google Drive에서 데이터셋·체크포인트 자
 import argparse
 import os
 import shutil
+import subprocess
 import sys
+import zipfile
 
 try:
     import gdown
@@ -15,28 +17,32 @@ except ImportError:
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ── Google Drive 폴더 ID ────────────────────────────────────────────────
+# ── Google Drive ID ─────────────────────────────────────────────────────
 RESOURCES = {
     "dataset_wire": {
-        "id":     "1N3rTC0d0MGG8bcE9wL_f4-VxR4MM9EHA",
+        "id":     "1OvtsoNC7bwnW8t2-3i-UigEWuLhsim-a",
+        "type":   "zip",
         "dest":   "dataset/Dataset_0622",
         "check":  "dataset/Dataset_0622/anomaly",
         "label":  "전선 데이터셋 (Dataset_0622)",
     },
     "dataset_hwang": {
-        "id":     "1-BshJFPN1rGL5m6IZWOcVIv_uHSxtyGb",
+        "id":     "1PRbTHcUCd4UcxdnSlBYtv9PBgqqEUNa6",
+        "type":   "zip",
         "dest":   "dataset/Dataset_0612",
         "check":  "dataset/Dataset_0612/anomaly",
         "label":  "황변 데이터셋 (Dataset_0612)",
     },
     "wire": {
-        "id":     "1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf",
+        "id":     "1w16hdFJiVKGGhANeBhI1xrsqKewPgIGo",
+        "type":   "zip",
         "dest":   "checkpoints/wire_final_train/fold_9",
         "check":  "checkpoints/wire_final_train/fold_9",
         "label":  "전선 체크포인트 (fold_9)",
     },
     "hwang": {
-        "id":     "1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA",
+        "id":     "1YQSUpS0BiWxRTK689YgNP_NlyKn1n-7a",
+        "type":   "zip",
         "dest":   "checkpoints/hwang_group_train/fold_9",
         "check":  "checkpoints/hwang_group_train/fold_9",
         "label":  "황변 체크포인트 (fold_9)",
@@ -50,23 +56,36 @@ TARGET_GROUPS = {
 }
 
 
-def download_resource(key: str, force: bool = False) -> None:
-    r = RESOURCES[key]
-    dest     = os.path.join(SCRIPT_DIR, r["dest"])
-    check    = os.path.join(SCRIPT_DIR, r["check"])
+def download_zip(r: dict, dest: str) -> None:
+    """curl로 zip 다운로드 후 압축 해제"""
+    tmp_zip = dest + "_tmp.zip"
+    url = f"https://drive.usercontent.google.com/download?id={r['id']}&export=download&confirm=t"
 
-    if not force and os.path.isdir(check) and os.listdir(check):
-        print(f"[SKIP] {r['label']} 이미 존재합니다.")
-        return
+    print(f"[INFO] curl 다운로드 중...")
+    ret = subprocess.run(["curl", "-L", url, "-o", tmp_zip], check=True)
 
-    print(f"[INFO] {r['label']} 다운로드 중...")
+    print(f"[INFO] 압축 해제 중...")
+    extract_dir = dest + "_extract"
+    os.makedirs(extract_dir, exist_ok=True)
+    subprocess.run(["unzip", "-q", tmp_zip, "-d", extract_dir], check=True)
+    os.remove(tmp_zip)
 
-    # 깨진 symlink나 파일이 폴더 위치에 있으면 제거
-    parent_dir = os.path.dirname(dest)
-    if os.path.isfile(parent_dir) or os.path.islink(parent_dir):
-        os.remove(parent_dir)
-    os.makedirs(parent_dir, exist_ok=True)
+    # 압축 해제 결과가 단일 폴더면 flatten
+    entries = os.listdir(extract_dir)
+    if len(entries) == 1 and os.path.isdir(os.path.join(extract_dir, entries[0])):
+        inner = os.path.join(extract_dir, entries[0])
+        if os.path.exists(dest):
+            shutil.rmtree(dest)
+        shutil.move(inner, dest)
+        shutil.rmtree(extract_dir)
+    else:
+        if os.path.exists(dest):
+            shutil.rmtree(dest)
+        shutil.move(extract_dir, dest)
 
+
+def download_folder(r: dict, dest: str) -> None:
+    """Google Drive 폴더 다운로드"""
     tmp_dir = dest + "_tmp"
     if os.path.isfile(tmp_dir) or os.path.islink(tmp_dir):
         os.remove(tmp_dir)
@@ -79,20 +98,46 @@ def download_resource(key: str, force: bool = False) -> None:
         use_cookies=False,
     )
 
-    # Google Drive 폴더 이름으로 하위 폴더가 생기는 경우 flatten
     sub_dirs = [d for d in os.listdir(tmp_dir) if os.path.isdir(os.path.join(tmp_dir, d))]
     if len(sub_dirs) == 1:
         inner = os.path.join(tmp_dir, sub_dirs[0])
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
         if os.path.exists(dest):
             shutil.rmtree(dest)
         shutil.move(inner, dest)
         shutil.rmtree(tmp_dir)
     else:
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
         if os.path.exists(dest):
             shutil.rmtree(dest)
         shutil.move(tmp_dir, dest)
+
+
+def download_resource(key: str, force: bool = False) -> None:
+    r = RESOURCES[key]
+    dest  = os.path.join(SCRIPT_DIR, r["dest"])
+    check = os.path.join(SCRIPT_DIR, r["check"])
+
+    if not force and os.path.isdir(check) and os.listdir(check):
+        print(f"[SKIP] {r['label']} 이미 존재합니다.")
+        return
+
+    print(f"[INFO] {r['label']} 다운로드 중...")
+
+    parent_dir = os.path.dirname(dest)
+    if os.path.isfile(parent_dir) or os.path.islink(parent_dir):
+        os.remove(parent_dir)
+    os.makedirs(parent_dir, exist_ok=True)
+
+    try:
+        if r["type"] == "zip":
+            download_zip(r, dest)
+        else:
+            download_folder(r, dest)
+    finally:
+        # 에러 발생 여부와 무관하게 _tmp 잔재 정리
+        tmp_path = dest + "_tmp"
+        if os.path.exists(tmp_path) and not os.path.exists(dest):
+            shutil.move(tmp_path, dest)
+            print(f"[INFO] {tmp_path} → {dest} rename 완료")
 
     print(f"[DONE] {r['label']} → {r['dest']}")
 
