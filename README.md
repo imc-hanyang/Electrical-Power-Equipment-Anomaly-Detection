@@ -16,8 +16,8 @@ pip install -r requirements.txt
 
 | 항목 | Google Drive |
 |---|---|
-| 전선 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf) |
-| 황변 체크포인트 | [다운로드](https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA) |
+| 전선 체크포인트 | [다운로드]([https://drive.google.com/drive/folders/1O1Ar2pU-PNOmDPRFU4fQLXSRyGwIM-tf](https://drive.google.com/file/d/1w16hdFJiVKGGhANeBhI1xrsqKewPgIGo/view?usp=drive_link)) |
+| 황변 체크포인트 | [다운로드]([https://drive.google.com/drive/folders/1uKMpge1NRKV3J0hb5gGbKNqFDIUU2LSA](https://drive.google.com/file/d/1YQSUpS0BiWxRTK689YgNP_NlyKn1n-7a/view?usp=drive_link)) |
 
 - checkpoints 경로 하단에 전선 체크포인트는 `checkpoints/wire_final_train/fold_9/` 황변 체크포인트는 `checkpoints/hwang_group_train/fold_9/` 로 구성되어야 합니다.
 - 각 모델 폴더(`patchcore/`, `differnet/`, `linear_convnextb/`, `linear_vitb/`, `convnextb_cla_sft2/`, `vitb_cla_sft2/`) 안에 `.pt` 체크포인트 파일이 포함되어 있습니다.
